@@ -130,7 +130,8 @@ function Mover(x, y) {
   };
 
   this.draw = function() {
-    noFill();
+    fill('steelblue');
+    noStroke();
     ellipse(this.x, this.y, 7);
   };
 }
