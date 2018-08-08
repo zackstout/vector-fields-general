@@ -1,14 +1,14 @@
 
-export function Grid(n, s) {
+export function Grid(n, s, vect_len) {
   this.cells = [];
 
   this.create = function() {
-    for (let i=0; i < numCells; i++) {
-      for (let j=0; j < numCells; j++) {
+    for (let i=0; i < n; i++) {
+      for (let j=0; j < n; j++) {
         const cell = {
           x: i,
           y: j,
-          noise: noise(i/noiseSense, j/noiseSense), // Should really be decoupled, moved to addVectors
+          noise: noise(i/s, j/s), // Should really be decoupled, moved to addVectors
         };
         this.cells.push(cell);
       }

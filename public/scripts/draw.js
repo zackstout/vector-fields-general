@@ -1,10 +1,10 @@
 
-// import Grid from './Grid.js';
 let w, h, den, numCells, noiseSense, grid, cell_h, cell_w, vect_len, speed;
 let movers = [];
 
+// NOTE: We ran into issues with imports, because noise() needs to run inside of setup(). Strange.
+
 function setup() {
-  // Would like to change to size of window:
   w = 800;
   h = 800;
   den = 5;
@@ -12,7 +12,7 @@ function setup() {
   speed = 5;
   numCells = w * den / 100;
   noiseSense = 10; // Make this lower to increase variation in noise
-  grid = new Grid(numCells, noiseSense);
+  grid = new Grid(numCells, noiseSense, vect_len);
   cell_w = w / numCells;
   cell_h = h / numCells;
 
@@ -20,8 +20,14 @@ function setup() {
   background(200);
 
   grid.addVectors();
-  console.log(grid);
+  // console.log(grid);
   grid.drawVectors();
+
+  setInterval(function() {
+    const m = new Mover(Math.random() * w, Math.random() * h);
+    movers.push(m);
+  }, 100);
+
 }
 
 function draw() {
@@ -45,16 +51,16 @@ function mouseDragged() {
 
 // ==================================================================================================
 
-function Grid(n, s) {
+function Grid(n, s, vect_len) {
   this.cells = [];
 
   this.create = function() {
-    for (let i=0; i < numCells; i++) {
-      for (let j=0; j < numCells; j++) {
+    for (let i=0; i < n; i++) {
+      for (let j=0; j < n; j++) {
         const cell = {
           x: i,
           y: j,
-          noise: noise(i/noiseSense, j/noiseSense), // Should really be decoupled, moved to addVectors
+          noise: noise(i/s, j/s), // Should really be decoupled, moved to addVectors
         };
         this.cells.push(cell);
       }
@@ -86,7 +92,7 @@ function Grid(n, s) {
 
   this.create();
   this.addVectors();
-} // end Grid
+}
 
 // ==================================================================================================
 
